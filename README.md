@@ -1,2 +1,1 @@
-# hello-django
-A result of [tutorial](https://docs.djangoproject.com/en/1.9/intro/) 
+:memo: An Django app made from a [tutorial](https://docs.djangoproject.com/en/1.9/intro/) 
