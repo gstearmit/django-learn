@@ -16,7 +16,7 @@ def create_question(question_text, days, choices=1):
     time = timezone.now() + datetime.timedelta(days=days)
     question = Question.objects.create(question_text=question_text, pub_date=time)
     for x in range(0, choices):
-        choice = create_choice('Choice {}.'.format(x), question)
+        create_choice('Choice {}.'.format(x), question)
     return question
 
 def create_choice(choice_text, question):
@@ -26,6 +26,7 @@ def create_choice(choice_text, question):
     choice = Choice(choice_text=choice_text, question=question)
     choice.save()
     return choice
+
 
 class QuestionViewTests(TestCase):
     def test_index_view_with_no_questions(self):
@@ -85,6 +86,7 @@ class QuestionViewTests(TestCase):
             ['<Question: Past question 2.>', '<Question: Past question 1.>']
         )
 
+
 class QuestionMethodTests(TestCase):
     def test_was_published_recently_with_future_question(self):
         """
@@ -113,6 +115,7 @@ class QuestionMethodTests(TestCase):
         time = timezone.now() - datetime.timedelta(hours=1)
         recent_question = Question(pub_date=time)
         self.assertEqual(recent_question.was_published_recently(), True)
+
 
 class QuestionDetailTests(TestCase):
     def test_detail_view_with_a_future_question(self):
@@ -161,6 +164,7 @@ class QuestionDetailTests(TestCase):
         self.assertContains(response, question_with_choices.question_text,
                             status_code=200)
 
+
 class QuestionResultsTests(TestCase):
     def test_results_view_with_a_future_question(self):
         """
@@ -207,3 +211,29 @@ class QuestionResultsTests(TestCase):
                                    args=(question_with_choices.id,)))
         self.assertContains(response, question_with_choices.question_text,
                             status_code=200)
+
+
+class QuestionVoteTests(TestCase):
+    def test_vote_method_without_select_choice(self):
+        """
+        If no choice was selected, an appropriate message should be displayed.
+        """
+        question = create_question(question_text="A question.", days=-30)
+        response = self.client.get(reverse('polls:vote',
+                                   args=(question.id,)))
+        self.assertIsNotNone(response.context['error_message'])
+
+    def test_vote_method(self):
+        """
+        The vote method should increase `votes` of a selected choice and
+        return a redirect.
+        """
+        question = create_question(question_text="A question.", days=-30)
+        choice = question.choice_set.get(pk=1)
+        response = self.client.post(reverse('polls:vote',
+                                   args=(question.id,)),
+                                   data={'choice':choice.id})
+        self.assertGreater(question.choice_set.get(pk=1).votes, choice.votes)
+        self.assertRedirects(response,
+                             expected_url=reverse('polls:results',
+                                                  args=(question.id,)))
