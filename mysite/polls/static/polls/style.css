@@ -1,0 +1,8 @@
+body {
+  background: white url('images/background.svg') no-repeat right bottom;
+  background-size: 25%;
+}
+
+li a {
+  color: green;
+}
