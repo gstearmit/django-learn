@@ -1,8 +1,9 @@
 body {
   background: white url('images/background.svg') no-repeat right bottom;
-  background-size: 25%;
+  background-size: 15%;
 }
 
-li a {
-  color: green;
+header {
+  padding-top: 2.5em;
+  margin-bottom: 1em;
 }

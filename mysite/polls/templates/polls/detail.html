@@ -1,15 +1,38 @@
-<h1>{{ question.question_text }}</h1>
+{% extends "polls/base.html" %}
+
+{% block title %}{{ question.question_text }}{% endblock %}
+
+{% block content %}
+
+<h2 class="ui header">Poll: <small>{{ question.question_text }}</small></h2>
 
 {% if error_message %}
-<p><strong>{{ error_message }}</strong></p>
+<div class="ui error message">
+  <div class="header">Ops...</div>
+  <p>{{ error_message }}</p>
+</div>
 {% endif %}
 
-<form action="{% url 'polls:vote' question.id %}" method="post">
+<form action="{% url 'polls:vote' question.id %}" method="post" class="ui form">
   {% csrf_token %}
   {% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" required />
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
-    <br />
+  <div class="field">
+    <div class="ui radio checkbox">
+      <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" required />
+      <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+    </div>
+  </div>
   {% endfor %}
-  <input type="submit" value="Vote" />
+  <input type="submit" value="Vote" class="ui primary button" />
+  <a href="{% url 'polls:index' %}" class="ui button">Cancelar</a>
 </form>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(function(){
+  $('.ui.checkbox').checkbox();
+});
+</script>
+{% endblock %}

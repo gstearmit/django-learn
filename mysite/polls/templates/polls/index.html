@@ -1,17 +1,26 @@
-{% load staticfiles %}
+{% extends "polls/base.html" %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+{% block title %} Polls {% endblock %}
+
+{% block content %}
 
 {% if latest_question_list %}
-  <ul>
+  <div class="ui relaxed list">
   {% for question in latest_question_list %}
-    <li>
-      <a href="{% url 'polls:detail' question.id %}">
-      {{ question.question_text }}
-      </a>
-    </li>
+    <div class="item">
+      <i class="large question middle aligned icon"></i>
+          <div class="content">
+            <a href="{% url 'polls:detail' question.id %}" class="header">
+            {{ question.question_text }}
+            </a>
+            <div class="description">{{ question.pub_date }}</div>
+          </div>
+
+    </div>
   {% endfor %}
-  </ul>
+  </div>
 {% else %}
   <p>No polls are available.</p>
 {% endif %}
+
+{% endblock %}
