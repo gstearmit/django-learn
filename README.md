@@ -1,4 +1,4 @@
-# Hello, Django!
+# Django - Polls App
 
 :memo: A Django app made with [tutorial](https://docs.djangoproject.com/en/1.9/intro/) 
 
