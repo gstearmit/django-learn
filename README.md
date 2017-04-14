@@ -64,7 +64,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Felipe Pontes** - *Initial work* - [felipemfp](https://github.com/felipemfp)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/felipemfp/django-polls-app/contributors) who participated in this project.
 
 ## License
 
