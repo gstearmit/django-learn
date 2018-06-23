@@ -21,6 +21,7 @@ Setup virtualenv
 ```
 virtualenv env
 source env/bin/activate
+env/bin/pip install django
 ```
 
 Install requirements
