@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls.apps.PollsConfig',
+    'django_user_agents',
+    'tracking_analyzer',
+    'django_countries',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -61,6 +64,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
+    'django.contrib.gis.geoip',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -93,6 +98,17 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'djangolearn',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': '127.0.0.1',
+#         'PORT': ''
+#     }
+# }
 
 if ENV == 'Production':
     # Update database configuration with $DATABASE_URL.
@@ -151,3 +167,18 @@ if ENV == 'Production':
 # https://warehouse.python.org/project/whitenoise/
 if ENV == 'Production':
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+# Cache backend is optional, but recommended to speed up user agent parsing
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+# Name of cache backend to cache user agents. If it not specified default
+# cache alias will be used. Set to `None` to disable caching.
+USER_AGENTS_CACHE = 'default'
+
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
