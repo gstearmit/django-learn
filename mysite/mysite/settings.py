@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django_user_agents',
     'tracking_analyzer',
     'django_countries',
+    #'debug_toolbar',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -64,8 +65,11 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'django_user_agents.middleware.UserAgentMiddleware',
     'django.contrib.gis.geoip',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 ]
 
 ROOT_URLCONF = 'mysite.urls'
